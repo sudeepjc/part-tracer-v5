@@ -1,0 +1,17 @@
+{
+  "name": "generalOrgApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fabric-ca-client": "^1.4.8",
+    "fabric-network": "^1.4.8",
+    "joi": "^14.3.1"
+  }
+}

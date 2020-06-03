@@ -1,0 +1,59 @@
+
+# in one terminal
+./network.sh down
+
+./network.sh up -ca -s couchdb
+
+tail the docker logs of ca-general, ca-airbus
+
+
+# open 2nd terminal
+cd generalOrgApp
+
+node ./app/enrollUser.js user1
+
+node ./app/enrollUser.js user1
+
+node ./app/enrollUser.js user2
+
+node ./app/addPart.js engine_1
+
+# on the first terminal 
+
+./network.sh createChannel
+
+./network.sh deployCC
+
+node ./app/addPart.js engine_1
+
+node ./app/addPart.js engine_2
+
+node ./app/addPart.js engine_3
+
+node ./app/addPart.js engine_4
+
+node ./app/addPart.js engine_5
+
+node ./app/addPart.js engine_6
+
+node ./app/addPart.js engine_7
+
+node ./app/addPart.js engine_8
+
+node ./app/sellPart.js engine_1
+
+node ./app/sellPart.js engine_2
+
+node ./app/deletePart.js engine_9
+
+node ./app/deletePart.js engine_8
+
+node ./app/deletePart.js engine_1
+
+
+# open 3nd terminal
+cd airbusOrgApp
+
+node ./app/enrollUser.js user1
+
+node ./app/query.js

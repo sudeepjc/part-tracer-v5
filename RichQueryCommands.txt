@@ -1,0 +1,111 @@
+./network.sh down
+
+./network.sh up -s couchdb
+
+
+Open a browser with : http://localhost:5984/_utils/
+ 
+./network.sh createChannel
+
+./network.sh deployCC
+
+export FABRIC_CFG_PATH=${PWD}/configtx
+export CHANNEL_NAME=mychannel
+source scripts/setPeerConnectionParam.sh 1 2
+source scripts/setChannelContext.sh 1
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_1","engine", "Two seater plane engine","100000","Org1"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_2","engine", "Two seater premium plane engine","200000","Org1"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_3","engine", "Two seater ultra premiun plane engine","250000","Org1"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_4","engine", "Airbus engine","900000","Org1"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_21","engine", "Two seater plane engine","100000","Org1"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_11","engine", "Two seater plane engine","100000","Org1"]}'
+
+
+source scripts/setChannelContext.sh 2
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_31","engine", "Two seater plane engine","200000","Org2"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_41","engine", "Two seater plane engine","200000","Org2"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_101","engine", "Two seater plane engine","200000","Org2"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_201","engine", "Domestic plane engine","500000","Org2"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_301","engine", "Domestic plane engine","500000","Org2"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"addPart","Args":["engine_401","engine", "Domestic plane engine","500000","Org2"]}'
+
+
+source scripts/setChannelContext.sh 2
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["queryParts","engine_1","engine_2"]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["queryParts","engine_2","engine_3"]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["queryParts","","engine_3"]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["queryParts","engine_2",""]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["queryParts","",""]}'
+
+
+############################ WithPagination #######################################################
+
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["queryPartsWithPagination","","","3",""]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["queryPartsWithPagination","","","3","engine_2"]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["queryPartsWithPagination","","","3","engine_3"]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["queryPartsWithPagination","","","3","engine_4"]}'
+
+################################ Query History Of an Asset ##########################################
+
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["getPartHistory","engine_4"]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["getPartHistory","engine_1"]}'
+
+source scripts/setChannelContext.sh 2
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"sellPart","Args":["engine_1","GeneralMSP","999"]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["getPartHistory","engine_1"]}'
+
+####################################### Deleting the part from the state db ##########################
+
+source scripts/setChannelContext.sh 1
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"deletePart","Args":["engine_1"]}'
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["getPartHistory","engine_1"]}'
+
+######################################## Rich Queries #######################################################
+
+{
+   "selector": {
+      "owner": {
+         "$eq": "GeneralMSP"
+      }
+   }
+}
+
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["getRichQueryResult","{\"selector\":{\"docType\":\"Part\",\"owner\":\"GeneralMSP\"}}"]}'
+
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.parttracer.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n partTracer $PEER_CONN_PARMS -c '{"function":"sellPart","Args":["engine_2","AirbusMSP","99999"]}'
+
+{
+   "selector": {
+      "$and": [
+         {
+            "owner": "AirbusMSP"
+         },
+         {
+            "manufacturer": "Org1"
+         }
+      ]
+   }
+}
+
+peer chaincode query -C $CHANNEL_NAME -n partTracer -c '{"Args":["getRichQueryResult","{\"selector\":{\"docType\":\"Part\",\"owner\":\"AirbusMSP\",\"manufacturer\":\"General Org\"}}"]}'
+
+
