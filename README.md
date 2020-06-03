@@ -13,8 +13,8 @@ Capabitities:
 
 Instructions:
 1. Add the bin folder to the path
-2. follow the instructions in the commands.txt
-3. cd generalOrgApp
-4. run command: npm install
-3. cd airbusOrgApp
-4. run command: npm install
+2. cd generalOrgApp
+3. run command: npm install
+4. cd airbusOrgApp
+5. run command: npm install
+6. follow the instructions in the commands.txt
